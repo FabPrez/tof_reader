@@ -28,10 +28,28 @@ catkin build
 ```
 
 ## Real-time Visualization
+
 You can visualize the TOF sensor data in real-time and launch the two sub-packages correctly using the following command:
 ```bash
 roslaunch tof_to_pointcloud read_tofdata_publishPC.launch
 ```
+
+To determine the name of the port through which the data is exchanged:
+
+```bash
+sudo dmesg | grep tty
+```
+
+And to grant permissions to read data from that port, you need to run the command:
+```bash
+sudo chmod 666 /dev/portName
+```
+For example:
+```bash
+sudo chmod 666 /dev/ttyACM0
+```
+
+
 
 ## TOF Configuration
 
