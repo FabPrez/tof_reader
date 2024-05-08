@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>read_tof_pointcloud</name>
+  <name>read_raw_tof_pointcloud</name>
   <version>0.0.0</version>
   <description>The read_tof_pointcloud package</description>
 

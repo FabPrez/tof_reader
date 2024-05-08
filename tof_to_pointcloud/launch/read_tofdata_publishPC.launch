@@ -1,7 +1,6 @@
 <launch>
-    <node pkg="read_tof_pointcloud" name="read_tof_pointcloud" type="read_tof_pointcloud.py" output="screen"/>
+    <node pkg="read_raw_tof_pointcloud" name="read_raw_tof_pointcloud" type="read_raw_tof_pointcloud.py" output="screen"/>
     <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher" args="0 0 0 0 0 1 map world 10"/>
     <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node" type="tof_to_pointcloud" output="screen"/>
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
-    <!-- args="-d $(find active_tactile_taxels)/config/debug_finger.rviz"/> -->
 </launch>
