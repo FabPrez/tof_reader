@@ -12,6 +12,13 @@ The 'read_raw_tof_pointcloud' sub-package is responsible for reading data from a
 ### 2. tof_to_pointcloud
 The 'tof_to_pointcloud' sub-package handles the conversion of raw sensor data into a structured pointcloud format and publishes it to a ROS topic named /tof_pointcloud.
 
+---
+
+## Prerequisites
+The `tof_reader` package requires Python's `pyserial` library. Install it using pip:
+```bash
+pip install pyserial
+```
 ## Getting started
 Create a ROS workspace (if you already have one, you can skip this step):
 ```
@@ -48,8 +55,7 @@ For example:
 ```bash
 sudo chmod 666 /dev/ttyACM0
 ```
-
-
+---
 
 ## TOF Configuration
 
