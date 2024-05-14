@@ -27,7 +27,7 @@ void Tof_to_pointcloud::tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::C
 
     // converto la pointcloud in messaggio ROS
     pcl::toROSMsg(*tof_pointcloud, pointcloud_msg);
-    pointcloud_msg.header.frame_id = "world";
+    pointcloud_msg.header.frame_id = "tof_frame";
 }
 
 void Tof_to_pointcloud::spinner()
