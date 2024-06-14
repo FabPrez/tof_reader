@@ -11,6 +11,10 @@ The 'read_raw_tof_pointcloud' sub-package is responsible for reading data from a
 
 ### 2. tof_to_pointcloud
 The 'tof_to_pointcloud' sub-package handles the conversion of raw sensor data into a structured pointcloud format and publishes it to a ROS topic named /tof_pointcloud.
+### 3. tof_characterization 
+Manages all acquisitions necessary for sensor characterization.
+### 4. generate_tof_map
+Acts as a server to create and save heatmap-style images from ToF sensor data.
 
 ---
 
@@ -56,6 +60,13 @@ For example:
 sudo chmod 666 /dev/ttyACM0
 ```
 ---
+
+## Tof characterization
+Launch this to start the calculations necessary for a single measurement and for those requiring multiple measurements, which can be set when launching the node.
+
+```bash
+roslaunch tof_characterization tof_characteriazation.launch num_measurements:=100
+```
 
 ## TOF Configuration
 
