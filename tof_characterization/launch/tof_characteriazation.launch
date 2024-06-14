@@ -1,10 +1,12 @@
 <launch>
     <arg name="num_measurements" default="50" />
 
+    <node pkg="generate_tof_map" name="generate_tof_map_node" type="main.py" output="screen"/>
     <!-- <node pkg="read_raw_tof_pointcloud" name="read_raw_tof_pointcloud" type="read_raw_tof_pointcloud.py" output="screen"/> -->
     <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node" type="tof_to_pointcloud" output="screen"/>
     <node pkg="tof_characterization" name="tof_characterization_node" type="tof_characterization" output="screen">
         <param name="num_measurements" value="$(arg num_measurements)" />  
     </node>
+
     
 </launch>

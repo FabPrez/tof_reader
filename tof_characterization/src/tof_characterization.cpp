@@ -8,8 +8,11 @@ Tof_characterization::Tof_characterization(ros::NodeHandle &nh)
 
     sub_tof_acquisition = nh.subscribe("/tof_pointcloud", 1, &Tof_characterization::store_pointcloud, this);
     tof_pointcloud = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+    wait_for_service();
     client_generate_tof_map = nh.serviceClient<generate_tof_map::GenerateHeatmap>("generate_heatmap");
     actual_num_measurements = 0;
+
+
 }
 
 void Tof_characterization::store_pointcloud(const sensor_msgs::PointCloud2 &msg)
@@ -100,6 +103,11 @@ void Tof_characterization::generate_heatmap_service(const std::vector<std::vecto
     }
 }
 
+void Tof_characterization::wait_for_service(void) {
+    ROS_INFO("Waiting for generate_heatmap service to be available...");
+    ros::service::waitForService("generate_heatmap");
+    ROS_INFO("Service generate_heatmap is now available.");
+}
 void Tof_characterization::spinner()
 {
     ros::spinOnce();
