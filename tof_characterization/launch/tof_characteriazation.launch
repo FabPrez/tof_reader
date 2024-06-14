@@ -1,0 +1,10 @@
+<launch>
+    <arg name="num_measurements" default="50" />
+
+    <node pkg="read_raw_tof_pointcloud" name="read_raw_tof_pointcloud" type="read_raw_tof_pointcloud.py" output="screen"/>
+    <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node" type="tof_to_pointcloud" output="screen"/>
+    <node pkg="tof_characterization" name="tof_characterization_node" type="tof_characterization" output="screen">
+        <param name="num_measurements" value="$(arg num_measurements)" />  
+    </node>
+    
+</launch>
