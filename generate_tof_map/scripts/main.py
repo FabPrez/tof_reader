@@ -35,35 +35,10 @@ def handle_generate_heatmap(req):
     response.message = "Heatmap displayed successfully."
     return response
     
-    
-    
-    # # Convert the flat data into a 2D numpy array
-    # data = np.array(req.data).reshape(req.rows, req.cols)
-    
-    # # Generate and save the heatmap
-    # plt.imshow(data, cmap='hot', interpolation='nearest')
-    # plt.colorbar()
-    # plt.title(req.name_graph)
-    # plt.xlabel("Pixel Column")
-    # plt.ylabel("Pixel Row")
-    # # plt.savefig(req.file_path)
-    # plt.show()
-    
-    # response = GenerateHeatmapResponse()
-    # response.success = True
-    # response.message = f"Heatmap saved successfully at: "
-    # return response
-
 def generate_heatmap_server():
     rospy.init_node('generate_heatmap_server')
     s = rospy.Service('generate_heatmap', GenerateHeatmap, handle_generate_heatmap)
     print("Ready to generate heatmaps.")
-    # height = 100
-    # width = 100
-    # white_image = np.full((height, width), 255)
-    # plt.imshow(white_image, cmap='gray', vmin=0, vmax=255)
-    # plt.axis('off')  # Hide the axis
-    # plt.show()
     rospy.spin()
 
 if __name__ == "__main__":
