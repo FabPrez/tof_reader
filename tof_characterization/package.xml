@@ -4,25 +4,28 @@
   <version>0.0.0</version>
   <description>The tof_characterization package</description>
 
-  <maintainer email="fabioprez@todo.todo">fabioprez</maintainer>
+  <maintainer email="giuseppefabio.preziosa@polimi.it">Giuseppe Fabio Preziosa</maintainer>
+  <license>BSD</license>
 
-  <license>TODO</license>
-
-  <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
-  <build_depend>sensor_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>generate_tof_map</build_depend> <!-- Aggiungi questa riga -->
+  
   <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>sensor_msgs</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <build_export_depend>message_runtime</build_export_depend>
+  <build_export_depend>generate_tof_map</build_export_depend> <!-- Aggiungi questa riga -->
+
   <exec_depend>roscpp</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>generate_tof_map</exec_depend> <!-- Aggiungi questa riga -->
 
-  <!-- The export tag contains other, unspecified, tags -->
   <export>
-    <!-- Other tools can request additional information be placed here -->
-
   </export>
 </package>

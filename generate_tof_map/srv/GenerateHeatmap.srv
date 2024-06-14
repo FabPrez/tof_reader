@@ -1,0 +1,9 @@
+# Request
+float64[] data
+int32 rows
+int32 cols
+string name_graph
+---
+# Response
+bool success
+string message

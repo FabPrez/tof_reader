@@ -2,6 +2,7 @@
 
 Tof_to_pointcloud::Tof_to_pointcloud(ros::NodeHandle &nh)
 {
+    this->nh = nh;
     sub_distance_tof = nh.subscribe("/tof_raw_pointcloud_data", 2, &Tof_to_pointcloud::tof_pointcloud_to_pcd, this);
     pub_pointcloud = nh.advertise<sensor_msgs::PointCloud2>("/tof_pointcloud", 2);
 }

@@ -7,12 +7,14 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
+#include "generate_tof_map/GenerateHeatmap.h"
 
 class Tof_characterization
 {
 public:
 	Tof_characterization(ros::NodeHandle &nh);
 	void spinner(void);
+	void generate_heatmap_service(const std::vector<std::vector<double>>& data, const std::string& name_graph);
 
 private:
 	// Tof prorperties
@@ -21,6 +23,8 @@ private:
 	// Ros stuff
 	ros::NodeHandle nh;
 	ros::Subscriber sub_tof_acquisition;
+	ros::ServiceClient client_generate_tof_map;
+
 
 	void store_pointcloud(const sensor_msgs::PointCloud2 &msg);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr tof_pointcloud;
