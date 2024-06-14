@@ -14,8 +14,8 @@ class Tof_characterization
 public:
 	Tof_characterization(ros::NodeHandle &nh);
 	void spinner(void);
-	void generate_heatmap_service(const std::vector<std::vector<double>> &data, const std::string &name_graph);
-
+	void generate_heatmap_service(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, const std::string &name_graph);
+	void generate_heatmap_service(const std::vector<double> &data, const std::string &name_graph);
 private:
 	// Tof prorperties
 	const int num_points = 64;

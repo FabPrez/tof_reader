@@ -73,17 +73,50 @@ void Tof_characterization::calculate_ass_average(void)
         assolute_average = assolute_average / num_measurements;
 }
 
-void Tof_characterization::generate_heatmap_service(const std::vector<std::vector<double>> &data, const std::string &name_graph)
+void Tof_characterization::generate_heatmap_service(const std::vector<double> &data, const std::string &name_graph)
 {
     generate_tof_map::GenerateHeatmap srv;
 
     // Convert the 2D vector to a flat array
-    for (const auto &row : data)
+   
+    srv.request.data = data;
+    
+    srv.request.rows = 8;
+    srv.request.cols = 8;
+    srv.request.name_graph = name_graph;
+
+    if (client_generate_tof_map.call(srv))
     {
-        srv.request.data.insert(srv.request.data.end(), row.begin(), row.end());
+        if (srv.response.success)
+        {
+            ROS_INFO("Heatmap saved successfully at: %s", srv.response.message.c_str());
+        }
+        else
+        {
+            ROS_ERROR("Failed to generate heatmap: %s", srv.response.message.c_str());
+        }
     }
-    srv.request.rows = data.size();
-    srv.request.cols = data[0].size();
+    else
+    {
+        ROS_ERROR("Failed to call service generate_heatmap");
+    }
+}
+
+void Tof_characterization::generate_heatmap_service(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, const std::string &name_graph)
+{
+    generate_tof_map::GenerateHeatmap srv;
+    std::vector<double> data;
+
+    // Convert the point cloud to a flat array containing only z values
+    for (const auto& point : cloud->points)
+    {
+        data.push_back(point.z);
+    }
+
+    srv.request.data = data;
+    
+    srv.request.rows = 8;
+    srv.request.cols = 8;
     srv.request.name_graph = name_graph;
 
     if (client_generate_tof_map.call(srv))
