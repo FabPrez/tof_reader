@@ -16,6 +16,8 @@ public:
 	void spinner(void);
 	void generate_heatmap_service(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, const std::string &name_graph);
 	void generate_heatmap_service(const std::vector<double> &data, const std::string &name_graph);
+	// void generate_heatmap_service(const std::vector<double> &data1, const std::string &name_graph, const std::vector<double> *data2 = nullptr);
+
 private:
 	// Tof prorperties
 	const int num_points = 64;
@@ -32,16 +34,24 @@ private:
 	// Characterization variables and methods
 	int num_measurements; // Num measurements needed for characterization
 	int actual_num_measurements;
+	double distance;
 	void characterization_routine_single_measurement(void);
 	void characterization_routine_multiple_measurement(void);
 	// single measurement characterization variables
 	float single_average = 0;
-	std::vector<float> point_deviation;
-	float calculate_average_measurement(void);
+	std::vector<double> point_deviation;
+	void calculate_average_measurement(void);
 	void calculate_std_deviation(void);
 	// assolute measurement characterization variables
-	float assolute_average = 0;
-	void calculate_ass_average(void);
+	std::vector<double> assolute_average;
+	std::vector<float> variance;
+	std::vector<double> squared_deviation_sum;
+	std::vector<double> abs_std;
+	void calculate_ass_std(void);
+	std::vector<double> mean_error;
+	std::vector<double> ass_mean_error;
+	void calculate_mean_error(void);
+	void calculate_ass_mean_error(void);
 };
 
 #endif // TOF_CHARACTERIZATION_HPP

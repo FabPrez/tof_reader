@@ -17,12 +17,12 @@ def handle_generate_heatmap(req):
     
     # Add color bar
     cbar = fig.colorbar(cax)
-    cbar.set_label('Distance Error (mm)')
+    cbar.set_label('Distance Error (m)')
 
     # Annotate the heatmap
     for i in range(req.rows):
         for j in range(req.cols):
-            ax.text(j, i, f"{data[i, j]:.2f}", ha='center', va='center', color='black')
+            ax.text(j, i, f"{data[i, j]:.3f}", ha='center', va='center', color='black')
 
     ax.set_title(req.name_graph)
     ax.set_xlabel("Pixel Column")
