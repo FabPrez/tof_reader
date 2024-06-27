@@ -50,12 +50,18 @@ void Tof_characterization::store_pointcloud(const sensor_msgs::PointCloud2 &msg)
 
     if (actual_num_measurements == num_measurements)
     {
-        std::string name_graph = "absolute_std_dev table color:";
+        calculate_average_meanerror();
+        calculate_average_std();
+        std::stringstream ss;
+        ss << "absolute standard deviation" << std << " /n" ;
+        std::string name_graph;
+        name_graph = ss.str();
         generate_heatmap_service(abs_std, name_graph);
-        name_graph = "absolute_mean_error table color:";
+        ss << "absolute mean error " << average << " /n";
+        name_graph = ss.str();
         generate_heatmap_service(ass_mean_error, name_graph);
-        name_graph = "avarage:";
-        generate_heatmap_service(assolute_average, name_graph);
+        // name_graph = "avarage:";
+        // generate_heatmap_service(assolute_average, name_graph);
     }
 }
 
@@ -107,6 +113,17 @@ void Tof_characterization::calculate_ass_std(void)
     }
 }
 
+void Tof_characterization::calculate_average_std(void)
+{
+    std = 0;
+    for (int i = 0; i < num_points; i++)
+    {
+        std += abs_std[i];
+    }
+
+    std = std / num_points;
+}
+
 void Tof_characterization::calculate_mean_error(void)
 {
 
@@ -124,6 +141,17 @@ void Tof_characterization::calculate_ass_mean_error(void)
     {
         ass_mean_error[i] = ((ass_mean_error[i] * (actual_num_measurements - 1)) + mean_error[i]) / actual_num_measurements;
     }
+}
+
+void Tof_characterization::calculate_average_meanerror(void)
+{
+    average = 0;
+    for (int i = 0; i < num_points; i++)
+    {
+        average += ass_mean_error[i];
+    }
+
+    average = average / num_points;
 }
 
 void Tof_characterization::generate_heatmap_service(const std::vector<double> &data, const std::string &name_graph)

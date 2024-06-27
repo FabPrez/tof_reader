@@ -41,6 +41,8 @@ private:
 	float single_average = 0;
 	std::vector<double> point_deviation;
 	void calculate_average_measurement(void);
+	void calculate_average_meanerror(void);
+	double average;
 	void calculate_std_deviation(void);
 	// assolute measurement characterization variables
 	std::vector<double> assolute_average;
@@ -48,6 +50,8 @@ private:
 	std::vector<double> squared_deviation_sum;
 	std::vector<double> abs_std;
 	void calculate_ass_std(void);
+	void calculate_average_std(void);
+	double std;
 	std::vector<double> mean_error;
 	std::vector<double> ass_mean_error;
 	void calculate_mean_error(void);

@@ -6,8 +6,8 @@
     <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node" type="tof_to_pointcloud" output="screen"/>
 
     <node pkg="read_raw_tof_pointcloud" name="read_raw_tof_pointcloud" type="read_raw_tof_pointcloud.py" output="screen"/>
-    <!-- <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher" args="0 0 0 0 0 0 world tof_frame 10"/>
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" /> -->
+    <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher" args="0 0 0 0 0 0 world tof_frame 10"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
 
     <node pkg="tof_characterization" name="tof_characterization_node" type="tof_characterization" output="screen">
         <param name="num_measurements" value="$(arg num_measurements)" />
