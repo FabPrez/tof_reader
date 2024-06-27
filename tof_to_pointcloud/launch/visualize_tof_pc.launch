@@ -1,6 +1,11 @@
 <launch>
-    <node pkg="read_raw_tof_pointcloud" name="read_raw_tof_pointcloud" type="read_raw_tof_pointcloud.py" output="screen"/>
-    <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher" args="0 0 0 0 0 0 world tof_frame 10"/>
-    <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node" type="tof_to_pointcloud" output="screen"/>
+    <!-- Definisci il parametro con un valore di default e aggiungi una descrizione -->
+    <arg name="frame_id" default="world" doc="Define the parent tf of the tof frame!"/>
+    
+    <!-- Includi il file child.launch e passa il parametro -->
+    <include file="$(find tof_to_pointcloud)/launch/publish_tof_pc.launch">
+        <arg name="frame_id" value="$(arg frame_id)"/>
+    </include>
+
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
 </launch>
