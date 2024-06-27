@@ -1,0 +1,8 @@
+<launch>
+    <arg name="frame_id" default="world" doc="Define the parent tf of the tof frame!"/>
+    
+    <node pkg="read_raw_tof_pointcloud" name="read_raw_tof_pointcloud" type="read_raw_tof_pointcloud.py" output="screen"/>
+    <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node" type="tof_to_pointcloud" output="screen"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher" args="0 0 0 0 0 0 $(arg frame_id) tof_frame 10"/>
+</launch>

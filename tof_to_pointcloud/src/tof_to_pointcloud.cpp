@@ -25,7 +25,6 @@ void Tof_to_pointcloud::tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::C
         tof_pointcloud->points[idx].y /= 1000; // converto da m a mm
         tof_pointcloud->points[idx].z /= 1000; // converto da m a mm
         tof_pointcloud->points[idx].x *= -1;
-        // tof_pointcloud->points[idx].z *= -1;
     }
 
     // converto la pointcloud in messaggio ROS
