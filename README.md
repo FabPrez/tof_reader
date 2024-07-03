@@ -38,12 +38,24 @@ cd ~/projects/merlin_ws
 catkin build
 ```
 
-## Real-time Visualization
+### Publishing and visualizing tof pointcloud
 
-You can visualize the TOF sensor data in real-time and launch the two sub-packages correctly using the following command:
+To visualize the Time-of-Flight (TOF) sensor data in real-time, you can automatically launch the reference system with a static transform using the following command:
+
 ```bash
-roslaunch tof_to_pointcloud read_tofdata_publishPC.launch
+roslaunch tof_to_pointcloud publish_single_tof_pc.launch
 ```
+
+#### Multiple Sensors Configuration
+
+If you have multiple sensors reading from the same port, you can configure your launch file in a modular way by specifying the number of TOF sensors and their respective reference systems. After configuring, you can run the following command to launch:
+
+```bash
+roslaunch tof_to_pointcloud publish_single_tof_pc.launch
+```
+
+This setup allows for efficient real-time data visualization and management of multiple TOF sensors.
+
 
 To determine the name of the port through which the data is exchanged:
 
