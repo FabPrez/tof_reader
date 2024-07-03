@@ -1,0 +1,17 @@
+<launch>
+    <arg name="tof_id" default="1"/>
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+    <arg name="frame_id" default="world"/>
+
+    <!-- Nodo per la conversione a PointCloud per il ToF -->
+    <node pkg="tof_to_pointcloud" name="tof_to_pointcloud_node_$(arg tof_id)" type="tof_to_pointcloud" output="screen">
+        <param name="input_topic" value="/tof_raw_pointcloud_data$(arg tof_id)"/>
+        <param name="output_topic" value="/tof_pointcloud_data$(arg tof_id)"/>
+        <param name="frame_id" value="tof_frame$(arg tof_id)"/>
+    </node>
+
+    <!-- Nodo per la trasformazione statica per il ToF -->
+    <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher_$(arg tof_id)" args="$(arg x) $(arg y) $(arg z) 0 0 0 $(arg frame_id) tof_frame$(arg tof_id) 10"/>
+</launch>

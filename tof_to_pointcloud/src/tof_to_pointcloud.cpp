@@ -3,8 +3,13 @@
 Tof_to_pointcloud::Tof_to_pointcloud(ros::NodeHandle &nh)
 {
     this->nh = nh;
-    sub_distance_tof = nh.subscribe("/tof_raw_pointcloud_data", 2, &Tof_to_pointcloud::tof_pointcloud_to_pcd, this);
-    pub_pointcloud = nh.advertise<sensor_msgs::PointCloud2>("/tof_pointcloud", 2);
+    ros::NodeHandle private_nh("~"); // Private NodeHandle
+    private_nh.getParam("input_topic", input_topic);
+    private_nh.getParam("output_topic", output_topic);
+    private_nh.getParam("frame_id", frame_id);
+    
+    sub_distance_tof = nh.subscribe(input_topic, 2, &Tof_to_pointcloud::tof_pointcloud_to_pcd, this);
+    pub_pointcloud = nh.advertise<sensor_msgs::PointCloud2>(output_topic, 2);
 }
 
 void Tof_to_pointcloud::tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::ConstPtr &msg)
@@ -27,13 +32,14 @@ void Tof_to_pointcloud::tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::C
         tof_pointcloud->points[idx].x *= -1;
     }
 
-    // converto la pointcloud in messaggio ROS
+
     pcl::toROSMsg(*tof_pointcloud, pointcloud_msg);
-    pointcloud_msg.header.frame_id = "tof_frame";
+    pointcloud_msg.header.frame_id = frame_id;
+    pointcloud_msg.header.stamp = ros::Time::now();
+    pub_pointcloud.publish(pointcloud_msg);
 }
 
 void Tof_to_pointcloud::spinner()
 {
-    pub_pointcloud.publish(pointcloud_msg);
     ros::spinOnce();
 }

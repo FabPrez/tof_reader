@@ -19,9 +19,15 @@ class Tof_to_pointcloud
         pcl::PointCloud<pcl::PointXYZ>::Ptr tof_pointcloud;
 
 		ros::NodeHandle nh;
+		ros::NodeHandle private_nh;		
+		
 		ros::Subscriber sub_distance_tof;
 		ros::Publisher pub_pointcloud;
 		sensor_msgs::PointCloud2 pointcloud_msg;
+
+		std::string input_topic;
+    	std::string output_topic;
+    	std::string frame_id;
 };
 
 #endif // TOF_TO_POINTCLOUD_HPP
