@@ -4,10 +4,12 @@
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0"/>
+    <arg name="tof_number" default="1"/>
     
     <!-- Includi il file child.launch e passa il parametro -->
     <include file="$(find tof_to_pointcloud)/launch/publish_tof_pc.launch">
         <arg name="frame_id" value="$(arg frame_id)"/>
+        <arg name="tof_number" value="$(arg tof_number)"/>
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
