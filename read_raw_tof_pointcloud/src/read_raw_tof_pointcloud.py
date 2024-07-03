@@ -7,14 +7,14 @@ import struct
 
 # Constants and configuration
 SERIAL_PORT = '/dev/ttyACM0'
-TOF_NUMBER = 0
+TOF_NUMBER = 1
 TYPE_BIT_SENT_BY_TOF = 16 # TOF IS SENDING 16 BIT PER DATA: 2 BYTES
 TOF_ZONE_NUMBER = 64
 POINTS_PER_ZONE = 3 # X, Y, Z COORDINATES
 BYTE_PER_POINT = 2 # TOF IS USING 2 BYTES PER POINT
 BAUD_RATE = 115200
 TIMEOUT = 1
-BYTE_PER_READ = TOF_ZONE_NUMBER * POINTS_PER_ZONE * BYTE_PER_POINT + (TOF_NUMBER+1)*2 # 2 BYTES FOR THE TOF NUMBER
+BYTE_PER_READ = TOF_ZONE_NUMBER * POINTS_PER_ZONE * BYTE_PER_POINT + 2 # 2 BYTES FOR THE TOF NUMBER
 
 def combine_bytes(msb, lsb):
     # COMBINE THE TWO BYTES TO FORM A 16-BIT INTEGER
@@ -35,11 +35,11 @@ def read_tof_pointcloud():
 
     # Verifica se la lunghezza di value è esattamente BYTE_PER_READ byte
     if len(value) == BYTE_PER_READ:
-        # JUST FOR DEBUGGING --------------------------------------
-        rospy.loginfo("Valori dei byte ricevuti:-----------")
-        for byte in value:
-            rospy.loginfo(format(byte, '08b'))
-        rospy.loginfo("Valori dei byte terminati-----------")
+        # # JUST FOR DEBUGGING --------------------------------------
+        # rospy.loginfo("Valori dei byte ricevuti:-----------")
+        # for byte in value:
+        #     rospy.loginfo(format(byte, '08b'))
+        # rospy.loginfo("Valori dei byte terminati-----------")
         
         interi = []
         for i in range(0, len(value), BYTE_PER_POINT):  # Leggi i byte in coppia
@@ -59,8 +59,8 @@ def read_tof_pointcloud():
         rospy.loginfo(interi[-1])
         rospy.loginfo("-----------")
             
-        if interi[-1] == TOF_NUMBER:
-            rospy.loginfo(f"TOF NUMBER: {TOF_NUMBER}, Is Publishing!")
+        if interi[-1] == (TOF_NUMBER-1):
+            rospy.loginfo(f"TOF NUMBER: {TOF_NUMBER-1}, Is Publishing!")
             pub.publish(array_msg)
 
 if __name__ == '__main__': 
