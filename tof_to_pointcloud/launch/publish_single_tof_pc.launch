@@ -1,20 +1,23 @@
 <launch>
-    <arg name="number_of_tofs" default="1"/>
-    <arg name="frame_id" default="world"/>
+    <arg name="number_of_tofs" default="1" />
+    <arg name="x" default="0" />
+    <arg name="y" default="0" />
+    <arg name="z" default="0" />
+    <arg name="frame_id" default="world" />
+    <arg name="rviz" default="true" />
 
     <include file="$(find read_raw_tof_pointcloud)/launch/read_tof.launch">
-        <arg name="number_of_tofs" value="$(arg number_of_tofs)"/>
+        <arg name="number_of_tofs" value="$(arg number_of_tofs)" />
     </include>
 
-    <!-- Include i file di lancio intermedi per ciascun ToF -->
     <include file="$(find tof_to_pointcloud)/launch/tof_to_pointcloud_and_transform.launch">
-        <arg name="tof_id" value="1"/>
-        <arg name="x" value="0"/>
-        <arg name="y" value="0"/>
-        <arg name="z" value="0"/>
-        <arg name="frame_id" value="$(arg frame_id)"/>
+        <arg name="tof_id" value="1" />
+        <arg name="x" value="$(arg x)" />
+        <arg name="y" value="$(arg y)" />
+        <arg name="z" value="$(arg z)" />
+        <arg name="frame_id" value="$(arg frame_id)" />
     </include>
 
-    <!-- Launch RViz per la visualizzazione -->
-    <node name="rviz_tof" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
+    <node if="$(arg rviz)" name="rviz_tof" pkg="rviz" type="rviz"
+        args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
 </launch>
