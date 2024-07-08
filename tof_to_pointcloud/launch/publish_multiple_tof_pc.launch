@@ -1,6 +1,15 @@
 <launch> 
     <arg name="number_of_tofs" default="2"/>  <!-- Modify here the number of tof and add the proper section below -->
     <arg name="frame_id" default="world"/>
+    <arg name="rviz" default="true" />
+    <!-- tof n1 args-->
+    <arg name="x_1" value="0.0265"/>
+    <arg name="y_1" value="0"/>
+    <arg name="z_1" value="0.0296"/>
+    <!-- tof n2 args-->
+    <arg name="x_2" value="0"/>
+    <arg name="y_2" value="0"/>
+    <arg name="z_2" value="0"/>
 
     <include file="$(find read_raw_tof_pointcloud)/launch/read_tof.launch">
         <arg name="number_of_tofs" value="$(arg number_of_tofs)"/>
@@ -9,18 +18,18 @@
     <!-- tof n1 -->
     <include file="$(find tof_to_pointcloud)/launch/tof_to_pointcloud_and_transform.launch">
         <arg name="tof_id" value="1"/>
-        <arg name="x" value="0"/>
-        <arg name="y" value="0"/>
-        <arg name="z" value="0"/>
+        <arg name="x" value="$(arg x_1)"/>
+        <arg name="y" value="$(arg y_1)"/>
+        <arg name="z" value="$(arg z_1)"/>
         <arg name="frame_id" value="$(arg frame_id)"/>
     </include>
 
     <!-- tof n2 -->
-    <include file="$(find tof_to_pointcloud)/launch/tof_to_pointcloud_and_transform.launch">
+    <include if="$(eval arg('number_of_tofs') == '2')" file="$(find tof_to_pointcloud)/launch/tof_to_pointcloud_and_transform.launch">
         <arg name="tof_id" value="2"/>
-        <arg name="x" value="1"/>
-        <arg name="y" value="0"/>
-        <arg name="z" value="0"/>
+        <arg name="x" value="$(arg x_2)"/>
+        <arg name="y" value="$(arg y_2)"/>
+        <arg name="z" value="$(arg z_2)"/>
         <arg name="frame_id" value="$(arg frame_id)"/>
     </include>
     
@@ -28,5 +37,6 @@
 
 
     <!-- Launch RViz per la visualizzazione -->
-    <node name="rviz_tof" pkg="rviz" type="rviz" args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
+    <node if="$(arg rviz)" name="rviz_tof" pkg="rviz" type="rviz"
+    args="-d $(find tof_to_pointcloud)/config/tofTopcd.rviz" />
 </launch>
