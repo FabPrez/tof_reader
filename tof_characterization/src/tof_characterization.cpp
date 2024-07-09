@@ -52,13 +52,15 @@ void Tof_characterization::store_pointcloud(const sensor_msgs::PointCloud2 &msg)
     {
         calculate_average_meanerror();
         calculate_average_std();
+        calculate_invalid_pixels();
         std::stringstream ss;
-        ss << "absolute standard deviation" << std << " /n" ;
+        ss << "absolute standard deviation" << std << " /n";
         std::string name_graph;
         name_graph = ss.str();
         generate_heatmap_service(abs_std, name_graph);
-        ss << "absolute mean error " << average << " /n";
-        name_graph = ss.str();
+        std::stringstream ss2;
+        ss2 << "absolute mean error " << average << " /n" << " invalid pixels " << invalid << " /n";
+        name_graph = ss2.str();
         generate_heatmap_service(ass_mean_error, name_graph);
         // name_graph = "avarage:";
         // generate_heatmap_service(assolute_average, name_graph);
@@ -152,6 +154,16 @@ void Tof_characterization::calculate_average_meanerror(void)
     }
 
     average = average / num_points;
+}
+
+void Tof_characterization::calculate_invalid_pixels(void)
+{
+    invalid = 0;
+    for (int i = 0; i < num_points; i++)
+    {
+        if (assolute_average[i] == 0)
+            invalid++;
+    }
 }
 
 void Tof_characterization::generate_heatmap_service(const std::vector<double> &data, const std::string &name_graph)
