@@ -12,6 +12,7 @@
         <param name="output_topic" value="/tof_pointcloud_data$(arg tof_id)"/>
         <param name="frame_id" value="tof_frame$(arg tof_id)"/>
         <param name="continuous_mode" value="$(arg continuous_mode)"/>
+        <param name="service_name" value="/start_acquisition_tof$(arg tof_id)"/>
     </node>
 
     <!-- Nodo per la trasformazione statica per il ToF -->

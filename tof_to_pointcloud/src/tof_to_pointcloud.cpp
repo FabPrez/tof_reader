@@ -7,6 +7,7 @@ Tof_to_pointcloud::Tof_to_pointcloud(ros::NodeHandle& nh)
     private_nh.getParam("output_topic", output_topic);
     private_nh.getParam("frame_id", frame_id);
     private_nh.getParam("continuous_mode", continuousMode);
+    private_nh.getParam("service_name", service_name);
 
     sub_distance_tof = nh.subscribe(input_topic, 2, &Tof_to_pointcloud::tof_pointcloud_to_pcd, this);
     pub_pointcloud = nh.advertise<sensor_msgs::PointCloud2>(output_topic, 2);
@@ -14,7 +15,8 @@ Tof_to_pointcloud::Tof_to_pointcloud(ros::NodeHandle& nh)
     if (!continuousMode)
     {
         // Service server to start acquisition
-        sv_pointcloud = nh.advertiseService("/start_acquisition", &Tof_to_pointcloud::startAcquisition, this);
+        sv_pointcloud = nh.advertiseService(service_name, &Tof_to_pointcloud::startAcquisition, this);
+        ROS_INFO("Service %s ready", service_name.c_str());
     }
 
     tof_pointcloud = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();

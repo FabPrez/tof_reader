@@ -12,6 +12,10 @@
     <arg name="y_2" value="0"/>
     <arg name="z_2" value="0"/>
 
+
+    <arg name="number_of_tofs_prova" default="2"/>
+
+
     <include file="$(find read_raw_tof_pointcloud)/launch/read_tof.launch">
         <arg name="number_of_tofs" value="$(arg number_of_tofs)"/>
     </include>
@@ -27,14 +31,16 @@
     </include>
 
     <!-- tof n2 -->
-    <include if="$(eval arg('number_of_tofs') == '2')" file="$(find tof_to_pointcloud)/launch/tof_to_pointcloud_and_transform.launch">
-        <arg name="tof_id" value="2"/>
-        <arg name="x" value="$(arg x_2)"/>
-        <arg name="y" value="$(arg y_2)"/>
-        <arg name="z" value="$(arg z_2)"/>
-        <arg name="frame_id" value="$(arg frame_id)"/>
-        <arg name="continuous_mode" value="$(arg continuous_mode)"/>
-    </include>
+    <group if="$(eval number_of_tofs == 2)">
+        <include file="$(find tof_to_pointcloud)/launch/tof_to_pointcloud_and_transform.launch">
+            <arg name="tof_id" value="2"/>
+            <arg name="x" value="$(arg x_2)"/>
+            <arg name="y" value="$(arg y_2)"/>
+            <arg name="z" value="$(arg z_2)"/>
+            <arg name="frame_id" value="$(arg frame_id)"/>
+            <arg name="continuous_mode" value="$(arg continuous_mode)"/>
+        </include>
+    </group>
     
     <!-- tof n...  -->
 

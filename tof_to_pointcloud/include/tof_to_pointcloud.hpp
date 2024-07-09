@@ -22,7 +22,7 @@ private:
     ros::Subscriber sub_distance_tof;
     ros::Publisher pub_pointcloud;
     ros::ServiceServer sv_pointcloud;
-	
+
     pcl::PointCloud<pcl::PointXYZ>::Ptr tof_pointcloud;
     sensor_msgs::PointCloud2 pointcloud_msg;
     bool acquisitionAllowed;
@@ -31,6 +31,7 @@ private:
     std::string input_topic;
     std::string output_topic;
     std::string frame_id;
+	std::string service_name;
 
     void tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::ConstPtr& msg);
     bool startAcquisition(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
