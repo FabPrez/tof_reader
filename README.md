@@ -84,15 +84,20 @@ For example:
 sudo chmod 666 /dev/ttyACM0
 ```
 ---
+### Use tof rosbag
 
-## Tof characterization
+Inside the package "tof_to_pointcloud" you can find some rosbag to be launched and published. You can use them to simulate the tof a data of the upper part of a box. 
+The pipeline should be: play rosbag -> launch publish_tof_pc.launch which whill give to you some errors related to data not coming from the usb port but forget about it, you are receiving data from the bag!
+
+
+### Tof characterization
 Launch this to start the calculations necessary for a single measurement and for those requiring multiple measurements, which can be set when launching the node.
 
 ```bash
 roslaunch tof_characterization tof_characteriazation.launch num_measurements:=100
 ```
 
-## TOF Configuration
+### TOF Configuration
 
 To customize the behavior of the `read_raw_tof_pointcloud` sub-package, follow these steps:
 
