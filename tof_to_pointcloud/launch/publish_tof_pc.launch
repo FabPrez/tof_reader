@@ -4,9 +4,9 @@
     <arg name="rviz" default="true" />
     <arg name="continuous_mode" default="false"/>
     <!-- tof n1 args-->
-    <arg name="x_1" value="0.0265"/>
-    <arg name="y_1" value="0"/>
-    <arg name="z_1" value="0.0296"/>
+    <arg name="x_1" value="0"/>
+    <arg name="y_1" value="-0.0265"/>
+    <arg name="z_1" value="0.0234"/>
     <!-- tof n2 args-->
     <arg name="x_2" value="0"/>
     <arg name="y_2" value="0"/>
