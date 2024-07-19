@@ -37,22 +37,34 @@ git clone https://github.com/FabPrez/tof_reader.git
 cd ~/projects/merlin_ws
 catkin build
 ```
+## HowTo
 
 ### Publishing and visualizing tof pointcloud
 
 To visualize the Time-of-Flight (TOF) sensor data in real-time, you can automatically launch the reference system with a static transform using the following command:
 
 ```bash
-roslaunch tof_to_pointcloud publish_single_tof_pc.launch
+roslaunch tof_to_pointcloud publish_tof_pc.launch
+```
+
+### Important parameter when launching
+You can choose to read publish pointcloud form tof in a continuos way (publishing to a specific topic):```<arg name="continuous_mode" default="true"/>```
+or calling a service to acquire only when needed:```<arg name="continuous_mode" default="false"/>```
+
+Example of service client configuration for discrete mode acquisition:
+```cpp
+std::string service_name = "/start_acquisition_tof" + std::to_string(i + 1);
+ros::ServiceClient client = nh.serviceClient<std_srvs::Trigger>(service_name);
 ```
 
 #### Multiple Sensors Configuration
 
-If you have multiple sensors reading from the same port, you can configure your launch file in a modular way by specifying the number of TOF sensors and their respective reference systems. After configuring, you can run the following command to launch:
+If you have multiple sensors reading from the same port, you can configure your launch file in a modular way by specifying the number of TOF sensors and their respective reference systems. You can specify the number of tofs by playing with parameters, adding the reference frame as well. Then, you can launch the tof with:
 
 ```bash
-roslaunch tof_to_pointcloud publish_single_tof_pc.launch
+roslaunch tof_to_pointcloud publish_tof_pc.launch
 ```
+So far, the launch file is configured to mange at max 2 tof. If you need another one, please modify the file "publish_tof_pc.launch" accordingly.
 
 This setup allows for efficient real-time data visualization and management of multiple TOF sensors.
 
@@ -72,15 +84,20 @@ For example:
 sudo chmod 666 /dev/ttyACM0
 ```
 ---
+### Use tof rosbag
 
-## Tof characterization
+Inside the package "tof_to_pointcloud" you can find some rosbag to be launched and published. You can use them to simulate the tof a data of the upper part of a box. 
+The pipeline should be: play rosbag -> launch publish_tof_pc.launch which whill give to you some errors related to data not coming from the usb port but forget about it, you are receiving data from the bag!
+
+
+### Tof characterization
 Launch this to start the calculations necessary for a single measurement and for those requiring multiple measurements, which can be set when launching the node.
 
 ```bash
 roslaunch tof_characterization tof_characteriazation.launch num_measurements:=100
 ```
 
-## TOF Configuration
+### TOF Configuration
 
 To customize the behavior of the `read_raw_tof_pointcloud` sub-package, follow these steps:
 
