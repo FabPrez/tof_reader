@@ -7,10 +7,18 @@
     <arg name="x_1" value="0"/>
     <arg name="y_1" value="-0.0265"/>
     <arg name="z_1" value="0.0234"/>
+    <arg name="qx_1" value="0.0"/>
+    <arg name="qy_1" value="0.0"/>
+    <arg name="qz_1" value="0.0"/>
+    <arg name="qw_1" value="1.0"/>
     <!-- tof n2 args-->
     <arg name="x_2" value="0"/>
-    <arg name="y_2" value="0"/>
-    <arg name="z_2" value="0"/>
+    <arg name="y_2" value="0.0265"/>
+    <arg name="z_2" value="0.0234"/>
+    <arg name="qx_2" value="0.0"/>
+    <arg name="qy_2" value="0.0"/>
+    <arg name="qz_2" value="1.0"/>
+    <arg name="qw_2" value="0.0"/>
 
 
     <arg name="number_of_tofs_prova" default="2"/>
@@ -26,6 +34,10 @@
         <arg name="x" value="$(arg x_1)"/>
         <arg name="y" value="$(arg y_1)"/>
         <arg name="z" value="$(arg z_1)"/>
+        <arg name="qx" value="$(arg qx_1)"/>
+        <arg name="qy" value="$(arg qy_1)"/>
+        <arg name="qz" value="$(arg qz_1)"/>
+        <arg name="qw" value="$(arg qw_1)"/>
         <arg name="frame_id" value="$(arg frame_id)"/>
         <arg name="continuous_mode" value="$(arg continuous_mode)"/>
     </include>
@@ -37,6 +49,10 @@
             <arg name="x" value="$(arg x_2)"/>
             <arg name="y" value="$(arg y_2)"/>
             <arg name="z" value="$(arg z_2)"/>
+            <arg name="qx" value="$(arg qx_2)"/>
+            <arg name="qy" value="$(arg qy_2)"/>
+            <arg name="qz" value="$(arg qz_2)"/>
+            <arg name="qw" value="$(arg qw_2)"/>
             <arg name="frame_id" value="$(arg frame_id)"/>
             <arg name="continuous_mode" value="$(arg continuous_mode)"/>
         </include>

@@ -3,6 +3,10 @@
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0"/>
+    <arg name="qx" default="0.0"/>
+    <arg name="qy" default="0.0"/>
+    <arg name="qz" default="0.0"/>
+    <arg name="qw" default="1.0"/>
     <arg name="frame_id" default="world"/>
     <arg name="continuous_mode" default="false"/>
 
@@ -16,5 +20,5 @@
     </node>
 
     <!-- Nodo per la trasformazione statica per il ToF -->
-    <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher_$(arg tof_id)" args="$(arg x) $(arg y) $(arg z) 0 0 0 $(arg frame_id) tof_frame$(arg tof_id) 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="my_static_tf_publisher_$(arg tof_id)" args="$(arg x) $(arg y) $(arg z) $(arg qx) $(arg qy) $(arg qz) $(arg qw) $(arg frame_id) tof_frame$(arg tof_id) 10"/>
 </launch>

@@ -1,5 +1,5 @@
 <launch>
-    <arg name="num_measurements" default="50" />
+    <arg name="num_measurements" default="1000" />
     <arg name="distance" default="0.3" />
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
