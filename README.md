@@ -84,6 +84,15 @@ For example:
 sudo chmod 666 /dev/ttyACM0
 ```
 ---
+
+## Simulated tof sensor
+If you have a gazebo tof sensor, you can use the same packages launching 
+```bash
+roslaunch tof_to_pointcloud publish_tof_pc.launch number_of_tofs:=1 tof_simulated:='true'
+```
+the output topic will be:```/simulated_tof/depth/points```
+So far we are able to simulate just one sensor.
+
 ### Use tof rosbag
 
 Inside the package "tof_to_pointcloud" you can find some rosbag to be launched and published. You can use them to simulate the tof a data of the upper part of a box. 
