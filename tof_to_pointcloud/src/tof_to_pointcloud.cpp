@@ -8,8 +8,16 @@ Tof_to_pointcloud::Tof_to_pointcloud(ros::NodeHandle& nh)
     private_nh.getParam("frame_id", frame_id);
     private_nh.getParam("continuous_mode", continuousMode);
     private_nh.getParam("service_name", service_name);
+    private_nh.getParam("tof_simulated", tof_simulated);
 
-    sub_distance_tof = nh.subscribe(input_topic, 2, &Tof_to_pointcloud::tof_pointcloud_to_pcd, this);
+    ROS_INFO("tof simulated Boolean value: %s", tof_simulated ? "true" : "false");
+    ROS_INFO("Input topic: %s", input_topic.c_str());
+
+    if (tof_simulated)
+        sub_ = nh.subscribe(input_topic, 2, &Tof_to_pointcloud::simulated_pc_to_pc, this);
+    else
+        sub_ = nh.subscribe(input_topic, 2, &Tof_to_pointcloud::raw_distance_to_pc, this);
+
     pub_pointcloud = nh.advertise<sensor_msgs::PointCloud2>(output_topic, 2);
 
     if (!continuousMode)
@@ -22,8 +30,10 @@ Tof_to_pointcloud::Tof_to_pointcloud(ros::NodeHandle& nh)
     tof_pointcloud = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
 }
 
-void Tof_to_pointcloud::tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::ConstPtr& msg)
+void Tof_to_pointcloud::raw_distance_to_pc(const std_msgs::Int32MultiArray::ConstPtr& msg)
 {
+    // ROS_INFO("Received pointcloud");
+
     if (!acquisitionAllowed && !continuousMode)
     {
         return;
@@ -58,6 +68,28 @@ void Tof_to_pointcloud::tof_pointcloud_to_pcd(const std_msgs::Int32MultiArray::C
 
     // Pubblica la pointcloud
     pub_pointcloud.publish(pointcloud_msg);
+}
+
+void Tof_to_pointcloud::simulated_pc_to_pc(const sensor_msgs::PointCloud2::ConstPtr& msg)
+{
+    // ROS_INFO("Received pointcloud");
+
+    if (!acquisitionAllowed && !continuousMode)
+    {
+        return;
+    }
+
+    pcl::fromROSMsg(*msg, *tof_pointcloud);
+
+    // Reset the flag if in service mode
+    if (!continuousMode)
+    {
+        acquisitionAllowed = false;
+    }
+
+    // Pubblica la pointcloud
+    pub_pointcloud.publish(*msg);
+    ROS_INFO("From service: pointcloud published!");
 }
 
 bool Tof_to_pointcloud::startAcquisition(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
