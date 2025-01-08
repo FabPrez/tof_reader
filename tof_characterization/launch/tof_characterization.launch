@@ -4,14 +4,22 @@
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0"/>
-    
+    <arg name="rviz_tof" default="true"/>
+    <arg name="continuous_mode" default="true"/>
+    <arg name="tof_simulated" default="false"/>
+    <arg name="number_of_tofs" default="1"/>
+
     <arg name="frame_id" default="world" doc="Define the parent tf of the tof frame!"/>
 
     <node pkg="generate_tof_map" name="generate_tof_map_node" type="main.py" output="screen"/>
     
-    <include file="$(find tof_to_pointcloud)/launch/visualize_tof_pc.launch">
-        <arg name="frame_id" value="$(arg frame_id)"/>
-    </include>
+    <include file="$(find tof_to_pointcloud)/launch/publish_tof_pc.launch">
+		<arg name="number_of_tofs" value="$(arg number_of_tofs)" />
+		<arg name="frame_id" value="world" />
+		<arg name="rviz" value="$(arg rviz_tof)" />
+		<arg name="continuous_mode" value="$(arg continuous_mode)" />
+		<arg name="tof_simulated" value="$(arg tof_simulated)" />
+	</include>
 
     <node pkg="tof_characterization" name="tof_characterization_node" type="tof_characterization" output="screen">
         <param name="num_measurements" value="$(arg num_measurements)" />
@@ -19,3 +27,4 @@
     </node>
 
 </launch>
+

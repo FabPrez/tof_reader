@@ -8,7 +8,7 @@ Tof_characterization::Tof_characterization(ros::NodeHandle &nh)
     nh.getParam("/tof_characterization_node/distance", distance);
     ROS_INFO("Distance: %f", distance);
 
-    sub_tof_acquisition = nh.subscribe("/tof_pointcloud", 1, &Tof_characterization::store_pointcloud, this);
+    sub_tof_acquisition = nh.subscribe("/tof_pointcloud_data1", 1, &Tof_characterization::store_pointcloud, this);
     tof_pointcloud = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
     wait_for_service();
     client_generate_tof_map = nh.serviceClient<generate_tof_map::GenerateHeatmap>("generate_heatmap");
@@ -53,13 +53,16 @@ void Tof_characterization::store_pointcloud(const sensor_msgs::PointCloud2 &msg)
         calculate_average_meanerror();
         calculate_average_std();
         std::stringstream ss;
-        ss << "absolute standard deviation" << std << " /n" ;
+        ss << "absolute standard deviation" << std << " \n" ;
         std::string name_graph;
         name_graph = ss.str();
         generate_heatmap_service(abs_std, name_graph);
-        ss << "absolute mean error " << average << " /n";
+        ROS_INFO("NUM of invalid pixels: %f", total_invalid);
+        ss.str(std::string());
+        ss << "absolute mean error " << average << " \n";
         name_graph = ss.str();
         generate_heatmap_service(ass_mean_error, name_graph);
+
         // name_graph = "avarage:";
         // generate_heatmap_service(assolute_average, name_graph);
     }
@@ -71,6 +74,7 @@ void Tof_characterization::characterization_routine_single_measurement()
     calculate_average_measurement();
     calculate_std_deviation();
     calculate_mean_error();
+    calculate_invalid_pixels();
 }
 
 void Tof_characterization::characterization_routine_multiple_measurement()
@@ -78,6 +82,7 @@ void Tof_characterization::characterization_routine_multiple_measurement()
     calculate_average_measurement();
     calculate_ass_mean_error();
     calculate_ass_std();
+    calculate_invalid_pixels();
 }
 
 void Tof_characterization::calculate_average_measurement(void)
@@ -152,6 +157,23 @@ void Tof_characterization::calculate_average_meanerror(void)
     }
 
     average = average / num_points;
+}
+
+void Tof_characterization::calculate_invalid_pixels(void)
+{
+    if (actual_num_measurements == 1)
+    {
+        invalid == 0;
+    }
+    for (int i = 0; i < num_points; i++)
+    {
+       if(tof_pointcloud->points[i].z == 0) 
+       {
+        invalid ++;
+       }
+    }
+
+    total_invalid = invalid / actual_num_measurements;
 }
 
 void Tof_characterization::generate_heatmap_service(const std::vector<double> &data, const std::string &name_graph)

@@ -9,7 +9,7 @@
     <!-- tof n1 args-->
     <arg name="x_1" value="0" />
     <arg name="y_1" value="-0.0265" />
-    <arg name="z_1" value="0.0234" />
+    <arg name="z_1" value="0.0274" />
     <arg name="qx_1" value="0.0" />
     <arg name="qy_1" value="0.0" />
     <arg name="qz_1" value="0.0" />
@@ -17,7 +17,7 @@
     <!-- tof n2 args-->
     <arg name="x_2" value="0" />
     <arg name="y_2" value="0.0265" />
-    <arg name="z_2" value="0.0234" />
+    <arg name="z_2" value="0.0274" />
     <arg name="qx_2" value="0.0" />
     <arg name="qy_2" value="0.0" />
     <arg name="qz_2" value="1.0" />

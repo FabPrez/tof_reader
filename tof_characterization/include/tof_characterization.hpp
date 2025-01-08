@@ -56,6 +56,9 @@ private:
 	std::vector<double> ass_mean_error;
 	void calculate_mean_error(void);
 	void calculate_ass_mean_error(void);
+	void calculate_invalid_pixels(void);
+	float total_invalid = 0;
+	float invalid;
 };
 
 #endif // TOF_CHARACTERIZATION_HPP
